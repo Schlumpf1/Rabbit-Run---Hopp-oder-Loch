@@ -1,0 +1,468 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import java.util.ArrayList;
+import javax.swing.JTextArea;
+import java.awt.Color;
+
+
+/**
+ *
+ * Beschreibung
+ *
+ * @version 1.0 vom 28.09.2020
+ * @author 
+ */
+
+public class Spielfenster extends JFrame {
+  // Anfang Attribute
+  SpielerKomminikator spK;
+  int kartenWert = -1;
+  boolean test = true;
+  ZiehKarte ziehkarteAmRand = null;
+  Ziehstappel ziehstappel;
+  
+  
+  JPanel spielbereich = new JPanel();
+  ArrayList<Team> teams = new ArrayList<Team>();
+  static String[] teamfarben;
+ 
+   
+  private ArrayList<Spielfigur> alleSpielfiguren = new ArrayList<Spielfigur>();
+  public static int anzahlSpielFigurenJeTeam = 2;
+  Spielfeld spielfelder[];
+  private static int abstandzurNaechstenFigur = 5;
+  private static int abstandzurKarte = 10;
+  
+  
+  // Ende Attribute
+  
+  public Spielfenster(int maxSpielFelder) { 
+    // Frame-Initialisierung
+    super();
+    
+    spielfelder = new Spielfeld[maxSpielFelder];
+    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    
+    Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+    int frameWidth = 298; 
+    int frameHeight = 298;
+    setSize(frameWidth, frameHeight);
+    int x = (d.width - getSize().width) / 2;
+    int y = (d.height - getSize().height) / 2;
+    setLocation(x, y);
+    
+    
+    
+    setTitle("Spielfenster  TESTFENSTER");
+    setResizable(false);
+    Container cp = getContentPane();
+    
+    cp.setLayout(null);
+    
+    
+    // Anfang Komponenten
+    spielbereich.setLayout(null);
+    spielbereich.setBackground(Color.green);
+    spielbereich.setBounds(0,0,frameWidth,frameHeight);
+    cp.add(spielbereich);
+    
+    //addNewTeam(new Team("GELB"));
+    //addNewTeam(new Team("BLAU"));
+    // Ende Komponenten
+    generiereSpielfelder(maxSpielFelder);
+    generiereTeams();
+//    generiereSpielfeldVerbindungen();
+    ziehstappel = new Ziehstappel(this);
+    ziehstappel.setLocation(this.getWidth()/6*5,this.getHeight()/3);
+    spielbereich.add(ziehstappel);
+    setVisible(true);
+  } // end of public Spielfenster
+  
+  public Spielfenster(SpielerKomminikator pSpielerKomminikator) { 
+    // Frame-Initialisierung
+    super();
+//    spielfelder = new Spielfeld[maxSpielFelder];
+    spK = pSpielerKomminikator;
+    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    
+    Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+    int frameWidth = d.width/4*3;
+    int frameHeight = d.height/4*3;
+    setSize(frameWidth, frameHeight);
+    int x = (d.width - getSize().width) / 2;
+    int y = (d.height - getSize().height) / 2;
+    setLocation(x, y);
+    
+    
+    
+    setTitle("Spielfenster  Teamfarbe: "+spK.meineTeamfarbe);
+    setResizable(false);
+    Container cp = getContentPane();
+    
+    cp.setLayout(null);
+    
+    
+    // Anfang Komponenten
+    spielbereich.setLayout(null);
+    spielbereich.setBackground(Color.green);
+    spielbereich.setBounds(0,0,frameWidth,frameHeight);
+    cp.add(spielbereich);
+    
+//    addNewTeam(new Team("GELB"));
+//    addNewTeam(new Team("BLAU"));
+    // Ende Komponenten
+//    generiereSpielfelder();
+//    generiereTeams();
+//    generiereSpielfeldVerbindungen();
+    ziehstappel = new Ziehstappel(this);
+    ziehstappel.setLocation(this.getWidth()/6*5,this.getHeight()/3);
+    spielbereich.add(ziehstappel);
+    setVisible(true);
+  } // end of public Spielfenster
+  
+  // Anfang Methoden
+  public void generiereSpielfelder(int pMaxSpielFelder){
+    spielfelder = new Spielfeld[pMaxSpielFelder];
+    for (int i = 0; i < spielfelder.length; i++) {
+      spielfelder[i] = new Spielfeld(i,spielfelder.length);
+      //this.setComponentZOrder(spielfelder[i],1);
+      spielbereich.add(spielfelder[i]);                                    //Grafische Veränderung
+      
+    }
+    spielbereich.setVisible(true);
+    this.println("Spielfelderanzahl: " + spielfelder.length);
+  }
+  
+  /*
+  * Funktioniert nicht
+  */
+  private void generiereSpielfeldVerbindungen(){
+    for (int i = 0; i < spielfelder.length-1; i++) {
+      Spielfeld spielfeld01 = spielfelder[i];
+      Spielfeld spielfeld02 = spielfelder[i+1];
+      int deltaX = spielfeld01.getX()-spielfeld02.getX();
+      int deltaY = spielfeld01.getY()-spielfeld02.getY();
+      int steigung = deltaY/deltaY;
+      for (int j = 0; j < deltaX; j++) {
+        Spielfeld verbindung = new Spielfeld();
+        //this.setComponentZOrder(verbindung,1);
+        verbindung.setLocation(spielfeld01.getX()+j,spielfeld01.getY()+ j*steigung);
+        spielbereich.add(verbindung);
+        
+      }
+    }
+  }
+  
+  public void generiereTeams(){
+    for (int i = 0; i < teamfarben.length; i++) {
+      addNewTeam(teamfarben[i]);
+    }
+    teams.trimToSize();
+    this.println("Anzahl von Teams: "+teams.size());
+    for (int i = 0; i < teams.size(); i++) {
+      teams.get(i).setBounds(abstandzurKarte+(anzahlSpielFigurenJeTeam* Spielfigur.breite*i) +50*i,abstandzurKarte,anzahlSpielFigurenJeTeam* Spielfigur.breite, Spielfigur.hoehe);
+      spielbereich.add(teams.get(i));
+      //this.setComponentZOrder(teams.get(i),1);
+      
+      for (int j = 0; j < anzahlSpielFigurenJeTeam; j++) {
+        Spielfigur neueSpielfigur = new Spielfigur(teams.get(i),j,this);
+        neueSpielfigur.setLocation(j*Spielfigur.breite,0);
+        neueSpielfigur.position = spielfelder.length;                                        //Position fuer noch nicht auf der Karte sein
+        alleSpielfiguren.add(neueSpielfigur);
+        //this.setComponentZOrder(neueSpielfigur,2);
+        teams.get(i).add(neueSpielfigur);                                                     // den teams hinzugefuegt, damit man die sehen kann
+      }
+      //this.println("Spielfiguren und team von Farbe: "+ teams.get(i).getFarbe()+" an der Xkoordinate: "+teams.get(i).getX()+ " hinzugefuegt");
+    }
+  }
+  
+  /*
+  * Gibt false zurueck, wenn die Teamfarbe durch das neue team doppelt vorhanden waere
+  * Andersfalls, wird das team hinzugefuegt und es wird true zurueckgegeben
+  */
+  public boolean addNewTeam(Team pNeuesTeam){
+    for (int i = 0; i < teams.size(); i++) {
+      if(pNeuesTeam.getTeamfarbe() == teams.get(i).getTeamfarbe()){
+        return false;
+      } 
+    }
+    teams.add(pNeuesTeam);
+    
+    return true;
+  }
+  
+  public void addNewTeam(String pTeamfarbe){
+    teams.add(new Team(pTeamfarbe));
+  }
+  
+  
+  
+//  public int spielfigurWeitersetzen(Spielfigur pSpielfigur){
+//    if(spK == null){
+//      System.out.println("Kein Komminikator");
+//      return 1;
+//    }
+//    else if(!spK.amSpielzug){
+//      System.out.println("Nicht am Zug");
+//      return 0;
+//    }
+//    else if(kartenWert==4) {
+//      spK.karteAktiviertDurchDrehen();
+//      return 0;     
+//    } 
+//    else {
+//      int pNeuerWert = pSpielfigur.getPosition()-kartenWert;
+//      while(spielfelder[pNeuerWert].getBesetzt() && pNeuerWert >=0){
+//        pNeuerWert--;
+//    }
+//      spK.karteAktiviert(pSpielfigur.getPosition(),pSpielfigur.getPosition()-pNeuerWert);
+//          pSpielfigur.position = pSpielfigur.getPosition()-pNeuerWert;
+//      bringeFigurAnNeuePosition(pSpielfigur,pNeuerWert);    
+//      return pNeuerWert;   
+//    } // end of if-else{
+//  }
+  public boolean spielfigurAmStart(Spielfigur pSpielfigur){
+    if (spielfelder.length == pSpielfigur.position) {
+      return true;
+    } else {
+      return false;
+    } // end of if-else        
+  }
+  
+  public int getNeueSpielfeldNummer(Spielfigur pSpielfigur, int kartenWert){
+    letzteSpielfigur();
+    int neueSpielfeldnummer = pSpielfigur.getPosition() -kartenWert;
+    if(neueSpielfeldnummer <=0){
+      return 0;
+    }
+    if(neueSpielfeldnummer<spielfelder.length){
+      for (int i = neueSpielfeldnummer; i >-1 ; i--) {
+        if(spielfelder[i] != null){
+          if(!spielfelder[i].getBesetzt()){
+            return i;  
+          }  
+        }
+      }
+    }
+    this.println("spielfelder.length: "+(spielfelder.length-1));
+    return spielfelder.length-3;
+    
+  }
+  
+  public void spielkarteAktiviert(Spielfigur pSpielfigur){
+    if(spK == null){
+      this.println("Kein Komminikator");
+      if(test){
+        if(spielfigurAmStart(pSpielfigur)){
+            entferneFigurVomStart(pSpielfigur);
+          }
+          else{
+            spielfelder[pSpielfigur.getPosition()].entferneSpielFigur();
+          }
+          int neueSpielfeldNummer = getNeueSpielfeldNummer(pSpielfigur,kartenWert);
+          //spK.karteAktiviert(pSpielfigur.getPosition(),neueSpielfeldNummer);
+          bringeFigurAnNeuePosition(pSpielfigur,neueSpielfeldNummer);
+          
+      }
+    }
+    else if(pSpielfigur.getMeinTeam().getTeamfarbe().equals(spK.meineTeamfarbe) ){
+      
+        if(!spK.amSpielzug){
+          this.println("Nicht am Zug");
+        }
+        else {
+          if(spielfigurAmStart(pSpielfigur)){
+            entferneFigurVomStart(pSpielfigur);
+          }
+          else{
+            spielfelder[pSpielfigur.getPosition()].entferneSpielFigur();
+          }
+          int neueSpielfeldNummer = getNeueSpielfeldNummer(pSpielfigur,kartenWert);
+          spK.karteAktiviert(pSpielfigur.getPosition(),neueSpielfeldNummer);
+          bringeFigurAnNeuePosition(pSpielfigur,neueSpielfeldNummer);
+            
+          } // end of if-else
+    }
+    else this.println("Farbe " +pSpielfigur.getMeinTeam().getTeamfarbe()+"ist nicht am zug."+" Sondern Farbe: "+spK.meineTeamfarbe);
+  }
+  
+  public void entferneFigurVomStart(Spielfigur pSpielfigur){
+    if(pSpielfigur == null || !spielfigurAmStart(pSpielfigur)){
+      this.println("Keine Figur vorhanden oder nicht am Start positioniert");
+    }
+    else{
+      this.println("Spielfigur von Feld: " + pSpielfigur.position+" entfernt.");
+      pSpielfigur.getMeinTeam().remove(pSpielfigur);
+      pSpielfigur.setLocation(0,0);
+      this.repaint();
+    }
+  }
+  
+  public Spielfigur getSpielfigur(int pSpielfeldnummer, String pFarbe){
+   if(pSpielfeldnummer==spielfelder.length) {
+      alleSpielfiguren.trimToSize();
+      for (int i = 0; i < alleSpielfiguren.size(); i++) {
+        if(alleSpielfiguren.get(i).getMeinTeam().getTeamfarbe().equals(pFarbe) && alleSpielfiguren.get(i).position==pSpielfeldnummer){
+          return alleSpielfiguren.get(i); 
+        }
+      }
+      return null;
+    } // end of if
+    else{
+      return spielfelder[pSpielfeldnummer].getHierStehendeSpielfigur();
+    }
+  }
+  
+  public void setzteSpielfigur(int pAltesSpielfeld, int pNeuesSpielfeld, String pTeamfarbe){
+    printAllSpielfiguren();
+    Spielfigur localSpielfigur = getSpielfigur(pAltesSpielfeld, pTeamfarbe);
+    this.println("Farbe bei der Suche:"+pTeamfarbe+":AltesFeld:"+pAltesSpielfeld+":pNeuesSpielfeld:"+pNeuesSpielfeld+": Spielfelder.lengtht: "+spielfelder.length);
+    if(localSpielfigur == null){
+      this.println("FEHLER figur an Position: "+ pAltesSpielfeld+" nicht gefunden");
+    }
+    else{
+      if(spielfigurAmStart(localSpielfigur)){
+        entferneFigurVomStart(localSpielfigur);
+      }
+      else{
+        spielfelder[localSpielfigur.position].entferneSpielFigur();
+      }
+      bringeFigurAnNeuePosition(localSpielfigur,pNeuesSpielfeld);
+    }
+  }
+  
+  public void bringeFigurAnNeuePosition(Spielfigur pSpielfigur, int pNeueFeldnummer){
+    this.println("Spielfigur zu Feld: " + pNeueFeldnummer+" hinzugefuegt.");
+    spielfelder[pNeueFeldnummer].fuegeSpielfigurHinzu(pSpielfigur);
+         
+  }
+  
+  public void printAllSpielfiguren(){
+    alleSpielfiguren.trimToSize();
+    for (int i = 0; i < alleSpielfiguren.size(); i++) {
+      this.println("Spielfigur["+i+"] Farbe: "+alleSpielfiguren.get(i).getMeinTeam().getTeamfarbe()+" an der Position: "+alleSpielfiguren.get(i).position);
+    }
+  }
+  
+  public Spielfeld getSpielfeldMitAktiverHasenfalle(){
+    for (int i = 0; i < spielfelder.length; i++) {
+      if(spielfelder[i].hasenfalle)return spielfelder[i];
+    }
+    return null;
+  }
+  
+  public void deaktiviereHasenfalle() {
+    if(getSpielfeldMitAktiverHasenfalle()!=null){
+      getSpielfeldMitAktiverHasenfalle().repaint();
+      getSpielfeldMitAktiverHasenfalle().setHasenfalle(false);
+      this.repaint();
+    }
+  }
+  
+  public void aktiviereHasenfalle(int pSpielfeldnummer){
+    if(spielfelder.length>pSpielfeldnummer || pSpielfeldnummer<=0 || spielfelder[pSpielfeldnummer]!=null){
+      if(spielfelder[pSpielfeldnummer].getBesetzt()){
+        Spielfigur localSpielfigur = spielfelder[pSpielfeldnummer].entferneSpielFigur();                    //Figur vielleicht mit Kreuz wieder ins Team schicken
+        this.repaint();  
+      }
+      spielfelder[pSpielfeldnummer].setHasenfalle(true);
+      this.repaint();
+    }
+    else{
+      this.println("Fehler beim aktivieren der Hasenfalle (Spielfeldnummer: "+pSpielfeldnummer+").");
+    }
+  }
+  
+  public void karteWurdeGezogen(){
+    spK.karteZiehWunsch();
+  }
+  
+  public void karteWurdeGeklickt(ZiehKarte pZiehkarte){
+    if(pZiehkarte== ziehkarteAmRand){
+      //Nichts tun
+    }
+    else{
+      if(ziehkarteAmRand!=null){
+        spielbereich.remove(ziehkarteAmRand);
+        this.repaint();
+      }
+      pZiehkarte.setLocation(pZiehkarte.getX()+400,pZiehkarte.getY());
+      ziehkarteAmRand = pZiehkarte;
+      this.repaint();
+      if(pZiehkarte.getZiehkartenwert()==4){
+        spK.karteAktiviertDurchDrehen();
+      }
+    }  
+  }
+  
+  public void ziehkarteZurMitteZiehen(ZiehKarte pZiehkarte){
+    pZiehkarte.setLocation(spielbereich.getWidth()/2-pZiehkarte.getWidth(),spielbereich.getHeight()/2-pZiehkarte.getHeight());
+    spielbereich.add(pZiehkarte);
+    this.repaint();
+  }
+  
+  public void endscreen(String pGewinnerFarbe){
+    this.println("Farbe: " +pGewinnerFarbe+" hat gewonnen!");
+    this.getContentPane().remove(spielbereich);
+    this.repaint();
+    
+    JPanel endscreen = new JPanel();
+    endscreen.setLayout(null);
+    endscreen.setBounds(0,0,this.getWidth(),this.getHeight());
+    endscreen.setBackground(Color.CYAN);
+    JTextArea jText = new JTextArea();
+    jText.setBounds(endscreen.getWidth()/5,endscreen.getHeight()/5*2,endscreen.getWidth()/5*3,endscreen.getHeight()/5);
+    jText.setBackground(new Color(0,0,0,0));
+    jText.setFont(new Font("SansSerif",Font.PLAIN,40));
+    if(spK==null){
+      jText.setText("Du hast verloren. "+pGewinnerFarbe+ " hat gewonnen."+ "\n" +"Vielleicht gewinnst du ja beim naechsten mal!");
+    }
+    else if(pGewinnerFarbe.equals(spK.meineTeamfarbe)){
+      jText.setText("Du hast gewonnen! Glückwunsch");
+    }
+    else{
+      jText.setText("Du hast verloren. "+pGewinnerFarbe+ " hat gewonnen."+"\n"+"Vielleicht gewinnst du ja beim naechsten mal!");
+    }
+    endscreen.add(jText);
+    this.getContentPane().add(endscreen);
+    this.repaint();
+  }
+  
+  public void letzteSpielfigur(){
+    alleSpielfiguren.trimToSize();
+    if(alleSpielfiguren.size() <=1){
+      spK.letzteSpielfigur(alleSpielfiguren.get(0).getMeinTeam().getTeamfarbe());
+    }
+  }
+  
+  public void lasseZiehstappelAufleuchten(boolean pAktiv){
+    
+  }
+  
+  public static void main(String[] args) {
+    Spielfenster spF = new Spielfenster(15);
+    sleep(10);
+    spF.endscreen("TEST");
+  } // end of main
+  
+  public static void sleep(int pSekunden){
+    try {
+      Thread.sleep(pSekunden*1000);
+    } catch(Exception e) {
+      
+    } finally {
+      
+    } // end of try
+  }
+  
+  public static void println(String pMsg){
+    System.out.println("Spielfenster.class: "+pMsg);
+  }
+  
+  // Ende Methoden
+} // end of class Spielfenster
+

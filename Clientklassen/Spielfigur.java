@@ -1,0 +1,113 @@
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.*;
+
+/**
+ *
+ * Beschreibung
+ *
+ * @version 1.0 vom 29.09.2020
+ * @author 
+ */
+
+public class Spielfigur extends JPanel implements MouseListener{
+  
+  // Anfang Attribute
+  private Spielfenster spielfenster01; 
+  private int teamfigurNummer;
+  private Team meinTeam;
+  private String farbe;
+  private Color color = Color.black;
+  public int position;               //-1 steht fuer Zuhause im Team               
+  public final static int breite =60,hoehe = 60;
+  private final static int abstandZumPanelRand = 5;
+  // Ende Attribute
+  
+  // Anfang Methoden
+  public Spielfigur(Team pTeam, int pTeamfigurNummer, Spielfenster pSpielfenster){
+    super();
+    
+    meinTeam = pTeam;
+    farbe = pTeam.getTeamfarbe();
+    teamfigurNummer = pTeamfigurNummer;
+    spielfenster01 = pSpielfenster;
+    
+    this.addMouseListener(this);
+    
+    
+    this.setSize(breite,hoehe);
+    this.setBackground(new Color(0,0,0,0)); 
+    translateStringFarbeToColor(); 
+  }
+  
+  public Team getMeinTeam() {
+    return meinTeam;
+  }
+
+  public int getPosition() {
+    return position;
+  }
+  
+  private void translateStringFarbeToColor(){
+    if(farbe.equals("GELB")){
+      color = Color.yellow;
+    }
+    else if(farbe.equals("BLAU")){
+      color = Color.blue;
+    }
+    else if(farbe.equals("ROT")){
+      color = Color.red;
+    }
+    else if(farbe.equals("PINK")){
+      color = Color.pink;
+    }
+          
+  }
+  
+  public void paintComponent(Graphics g){
+    super.paintComponent(g);
+    g.setColor(color);
+    //Ohren
+    g.fillOval(15,3,10,20);
+    g.fillOval(35,3,10,20);
+    //Kopf
+    g.fillOval(15,15,30,20);
+    //Koerper
+    g.fillOval(12,30,38,60);
+    //Augen
+    g.setColor(Color.white);
+    g.fillOval(21,19,5,6);
+    g.fillOval(32,19,5,6);
+    g.setColor(Color.black);
+    g.fillOval(22,20,4,4);
+    g.fillOval(33,20,4,4);
+  }
+  
+  public void mouseExited(MouseEvent e){
+    
+  }
+  
+  public void mouseEntered(MouseEvent e){
+    
+  }
+  
+  public void mouseReleased(MouseEvent e){
+                           
+  }
+  
+  public void mousePressed(MouseEvent e){
+    
+  }
+  
+  public void mouseClicked(MouseEvent e){
+   spielfenster01.spielkarteAktiviert(this);
+  }
+  
+  public static void main(String[] args) {
+    Spielfenster.main(args);
+  } // end of main
+
+  // Ende Methoden
+} // end of Spielfigur
+
