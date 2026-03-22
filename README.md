@@ -11,3 +11,4 @@ Diese letzte Version basiert auf einer Version, die nicht auf Multiplayer ausgel
 
 Die aktuelle Version hat die Spielregeln nicht komplett implementiert; mit ausreichend Geduld und Gefühl sollte es aber trotzdem bis zum Sieg gespielt werden können.
 
+![LottiKarotti-Screenshot](https://github.com/user-attachments/assets/4eaff59b-989e-4d1f-b4fb-c2279790733f)
