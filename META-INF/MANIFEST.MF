@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: JEClasses.jar
-Main-Class: Kommunikator
-Created-By: 12.0.1 (Oracle Corporation)
-

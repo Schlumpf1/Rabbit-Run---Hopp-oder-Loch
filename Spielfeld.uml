@@ -1,0 +1,165 @@
+﻿[Files]
+File0=Spielfeld.java
+File1=SpielFenster.java
+File2=SpielFigur.java
+File3=Spielkarte.java
+File4=Team.java
+File5=ZiehKarte.java
+File6=ZiehkartenActionListener.java
+File7=ZiehStappel.java
+
+[Box:  - Spielfeld]
+X=20
+Y=630
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - SpielFenster]
+X=1098
+Y=38
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - SpielFigur]
+X=51
+Y=51
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - Spielkarte]
+X=641
+Y=1083
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - Team]
+X=460
+Y=630
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - ZiehKarte]
+X=1198
+Y=1035
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - ZiehkartenActionListener]
+X=673
+Y=96
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - ZiehStappel]
+X=970
+Y=630
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Diagram]
+comments=0
+OffsetX=502
+OffsetY=0
+Visibility=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+ShowConnections=0
+Fontname=Segoe UI
+Fontsize=9
+ShowObjectDiagram=0
+
+[Connections]
+V0=Spielfeld#SpielFigur#AssociationBidirectional####0#0#0###0#0
+V1=Spielfeld#Spielkarte#AssociationDirected####0#0#0###0#0
+V2=SpielFenster#Spielkarte#AssociationDirected####0#0#0###0#0
+V3=SpielFigur#Spielkarte#AssociationDirected####0#0#0###0#0
+V4=SpielFigur#Team#AssociationDirected####0#0#0###0#0
+V5=Spielkarte#Team#Aggregation####0#0#0###0#0
+V6=Spielkarte#ZiehStappel#AssociationBidirectional####0#0#0###0#0
+V7=ZiehkartenActionListener#ZiehStappel#AssociationDirected####0#0#0###0#0
+V8=ZiehStappel#ZiehKarte#Aggregation####0#0#0###0#0
+
+[Interactive]
+I0=
+I1=Team team1 = new Team("Blau", 2, null);
+I2=Spielkarte spielkarte1 = new Spielkarte();
+I3=Spielkarte spielkarte1 = new Spielkarte();
+I4=Team team1 = new Team("Blau", 3, spielkarte1);
+I5=ZiehStappel ziehstappel1 = new ZiehStappel();
+I6=ZiehKarte ziehkarte1 = new ZiehKarte();
+I7=ZiehStappel ziehstappel1 = new ZiehStappel(5);
+I8=Spielkarte spielkarte1 = new Spielkarte(2, 2);
+I9=Spielkarte spielkarte1 = new Spielkarte(2, 2);
+I10=Spielkarte spielkarte1 = new Spielkarte(2, 2);
+I11=team2.zieheKarte();
+I12=team2.getTeamfarbe();
+I13=team2.getAnzahlMaxFiguren();
+I14=Spielfeld spielfeld1 = new Spielfeld();
+I15=Spielkarte spielkarte1 = new Spielkarte(10, 4);
+I16=Spielfeld spielfeld1 = new Spielfeld(2, false);
+I17=Spielkarte spielkarte1 = new Spielkarte(0, 1);
+I18=Spielfeld spielfeld1 = new Spielfeld(0, false);
+I19=Spielkarte spielkarte1 = new Spielkarte(0, 1);
+I20=Spielfeld spielfeld1 = new Spielfeld(0, false);
+I21=spielfeld1.fügeFigurNeuHinzu(spielfigur1);
+I22=Spielfeld spielfeld2 = new Spielfeld(1, false);
+I23=spielfeld2.platziereSpielfigur(spielfigur1);
+I24=Spielkarte spielkarte1 = new Spielkarte(0, 1);
+I25=Spielfeld spielfeld1 = new Spielfeld(1, false);
+I26=Spielfeld spielfeld2 = new Spielfeld(2, false);
+I27=spielfeld1.fügeFigurNeuHinzu(spielfigur1);
+I28=spielfeld2.platziereSpielfigur(spielfigur1);
+I29=Spielkarte spielkarte1 = new Spielkarte(1, 1);
+I30=Spielfeld spielfeld1 = new Spielfeld(0, false);
+I31=Spielfeld spielfeld2 = new Spielfeld(1, false);
+I32=spielfeld1.fügeFigurNeuHinzu(spielfigur1);
+I33=spielfeld2.fügeFigurNeuHinzu(spielfigur1);
+I34=Spielkarte spielkarte1 = new Spielkarte(1, 1, 1);
+I35=spielfeld1.fügeFigurNeuHinzu(spielfigur1);
+I36=Spielkarte spielkarte1 = new Spielkarte(0, 1, 5);
+I37=Spielkarte spielkarte1 = new Spielkarte(0, 0, 10);
+I38=Spielkarte spielkarte1 = new Spielkarte(0, 0, 4);
+I39=Spielkarte spielkarte1 = new Spielkarte(1, 1, 5);
+I40=Spielkarte spielkarte1 = new Spielkarte(5, 0, 0);
+I41=SpielFenster.main(new String[] {});
+I42=Spielfeld spielfeld1 = new Spielfeld(2, 3);
+I43=spielfeld1.getKoordinate();
+I44=Spielfeld spielfeld1 = new Spielfeld(5, 7);
+I45=spielfeld1.getKoordinate();
+I46=Spielfeld spielfeld1 = new Spielfeld(5, 7);
+I47=Spielfeld spielfeld2 = new Spielfeld(1, 7);
+I48=Spielfeld spielfeld1 = new Spielfeld(6, 12);
+I49=Spielfeld spielfeld2 = new Spielfeld(1, 12);
+I50=Spielfeld spielfeld1 = new Spielfeld(1, 10);
+I51=SpielFenster.main(new String[] {});
+I52=SpielFenster spielfenster1 = new SpielFenster();
+I53=spielfenster1.prepareSpielFeld();
+I54=spielfenster1.prepareSpielFeld();
+I55=SpielFenster.main(new String[] {});
+I56=Spielkarte spielkarte1 = new Spielkarte(0, 0, 10);
+I57=Spielkarte spielkarte1 = new Spielkarte(0, 0, 1);
+I58=Spielkarte spielkarte1 = new Spielkarte(0, 0, 5);
+
+[Window]
+Left=-9
+Top=-36
+Width=974
+Height=661
+

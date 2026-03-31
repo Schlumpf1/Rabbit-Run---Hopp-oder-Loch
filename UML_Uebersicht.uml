@@ -1,0 +1,143 @@
+﻿[Files]
+File0=MouseListenerSpielFigur.java
+File1=MouseListenerSpielKarte.java
+File2=Spielfeld.java
+File3=SpielFeldWeg.java
+File4=SpielFenster.java
+File5=SpielFigur.java
+File6=Spielkarte.java
+File7=Team.java
+File8=TrampelWegFeld.java
+File9=ZiehKarte.java
+File10=ZiehkartenActionListener.java
+File11=ZiehStappel.java
+
+[Box:  - MouseListenerSpielFigur]
+X=16
+Y=32
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - MouseListenerSpielKarte]
+X=652
+Y=32
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - Spielfeld]
+X=1582
+Y=332
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - SpielFeldWeg]
+X=2093
+Y=32
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - SpielFenster]
+X=1081
+Y=32
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - SpielFigur]
+X=1088
+Y=914
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - Spielkarte]
+X=711
+Y=1346
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - Team]
+X=16
+Y=2093
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - TrampelWegFeld]
+X=1484
+Y=2093
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - ZiehKarte]
+X=1456
+Y=2725
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - ZiehkartenActionListener]
+X=1597
+Y=32
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Box:  - ZiehStappel]
+X=760
+Y=2093
+MinVis=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+
+[Diagram]
+comments=0
+OffsetX=0
+OffsetY=0
+Visibility=0
+ShowParameter=4
+SortOrder=0
+ShowIcons=1
+ShowConnections=0
+Fontname=Segoe UI
+Fontsize=9
+ShowObjectDiagram=0
+
+[Connections]
+V0=MouseListenerSpielFigur#Spielkarte#AssociationDirected####0#0#0###0#0
+V1=MouseListenerSpielFigur#SpielFigur#AssociationDirected####0#0#0###0#0
+V2=MouseListenerSpielKarte#Spielkarte#AssociationDirected####0#0#0###0#0
+V3=Spielfeld#SpielFigur#AssociationBidirectional####0#0#0###0#0
+V4=Spielfeld#Spielkarte#AssociationDirected####0#0#0###0#0
+V5=SpielFeldWeg#Spielfeld#AssociationDirected####0#0#0###0#0
+V6=SpielFenster#Spielkarte#AssociationDirected####0#0#0###0#0
+V7=SpielFigur#Spielkarte#AssociationDirected####0#0#0###0#0
+V8=SpielFigur#Team#AssociationDirected####0#0#0###0#0
+V9=Spielkarte#Team#Aggregation####0#0#0###0#0
+V10=Spielkarte#ZiehStappel#AssociationBidirectional####0#0#0###0#0
+V11=Spielkarte#ZiehKarte#AssociationDirected####0#0#0###0#0
+V12=Spielkarte#TrampelWegFeld#Aggregation####0#0#0###0#0
+V13=ZiehkartenActionListener#ZiehStappel#AssociationDirected####0#0#0###0#0
+V14=ZiehStappel#ZiehKarte#Aggregation####0#0#0###0#0
+
+[Interactive]
+I0=
+

@@ -1,0 +1,33 @@
+object FGUIForm: TFGUIForm
+  Left = 831
+  Top = 154
+  BorderIcons = [biSystemMenu]
+  Caption = 'FGUIForm'
+  ClientHeight = 255
+  ClientWidth = 282
+  Color = clBtnFace
+  ParentFont = True
+  FormStyle = fsStayOnTop
+  Position = poDesigned
+  ShowHint = True
+  Visible = True
+  OnAfterMonitorDpiChanged = FormAfterMonitorDpiChanged
+  OnBeforeMonitorDpiChanged = FormBeforeMonitorDpiChanged
+  OnCanResize = FormCanResize
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnMouseActivate = FormMouseActivate
+  OnResize = FormResize
+  FrameType = 5
+  Modified = False
+  Resizable = False
+  Undecorated = False
+  Background = clBtnFace
+  Title = 'SpielFenster'
+  FontSize = 11
+  PixelsPerInch = 120
+  TextHeight = 20
+  object GNUgettextMarker: TGnuGettextComponentMarker
+  end
+end
